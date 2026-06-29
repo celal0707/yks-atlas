@@ -14,15 +14,15 @@ import {
   getDoc, 
   collection, 
   query, 
-  where, 
   getDocs,
   updateDoc,
   deleteDoc,
-  QueryConstraint,
   writeBatch
 } from 'firebase/firestore';
 import { User, Task, Exam, Mistake, Book, Note, Subject } from '@/types';
 
+// Firebase yapılandırması
+// Bu değerler otomatik olarak .env.local dosyanızdan veya Vercel ayarlarından çekilir
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -30,6 +30,7 @@ const firebaseConfig = {
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID // Burası eklendi
 };
 
 const app = initializeApp(firebaseConfig);
@@ -58,7 +59,7 @@ export const createUserProfile = async (user: FirebaseUser, displayName: string)
     displayName,
     photoURL: user.photoURL || undefined,
     createdAt: Date.now(),
-    examDate: new Date(2027, 5, 18).toISOString().split('T')[0], // Default YKS date
+    examDate: new Date(2027, 5, 18).toISOString().split('T')[0],
     track: 'sayisal',
   };
 
